@@ -7,7 +7,6 @@ use std::os::raw::c_int;
 #[no_mangle]
 pub extern "C" fn sqlite3_sqlitezstd_init(
     db: *mut ffi::sqlite3,
-    _pz_err_msg: &mut &mut std::os::raw::c_char,
     p_api: *mut ffi::sqlite3_api_routines,
 ) -> c_int {
     // SQLITE_EXTENSION_INIT2 equivalent
@@ -22,8 +21,6 @@ pub extern "C" fn sqlite3_sqlitezstd_init(
      ** to register the new features that your extension adds.
      */
     match init(db) {
-        Ok(()) => {
-            log::info!("[sqlite-zstd] initialized");
             ffi::SQLITE_OK
         }
         Err(e) => {
